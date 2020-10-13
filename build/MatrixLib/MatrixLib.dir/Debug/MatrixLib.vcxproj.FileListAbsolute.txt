@@ -1,0 +1,2 @@
+C:\Users\Никита\Desktop\Labs\Lab_2\Lab2\build\MatrixLib\Debug\MatrixLib.pdb
+C:\Users\Никита\Desktop\Labs\Lab_2\Lab2\build\MatrixLib\MatrixLib.dir\Debug\MatrixLib.pdb

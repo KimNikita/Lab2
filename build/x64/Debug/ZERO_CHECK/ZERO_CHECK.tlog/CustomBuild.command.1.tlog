@@ -1,0 +1,10 @@
+^C:\USERS\НИКИТА\DESKTOP\LABS\LAB_2\LAB2\BUILD\CMAKEFILES\15C14B90F7896E09E642FFB9E3871F1D\GENERATE.STAMP.RULE
+setlocal
+"C:\Users\Никита\Downloads\cmake-3.18 2\cmake-3.18.3-win64-x64\bin\cmake.exe" -SC:/Users/Никита/Desktop/Labs/Lab_2/Lab2 -BC:/Users/Никита/Desktop/Labs/Lab_2/Lab2/build --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file C:/Users/Никита/Desktop/Labs/Lab_2/Lab2/build/Matrix.sln
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

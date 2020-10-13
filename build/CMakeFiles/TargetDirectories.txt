@@ -1,0 +1,6 @@
+C:/Users/Никита/Desktop/Labs/Lab_2/Lab2/build/CMakeFiles/ALL_BUILD.dir
+C:/Users/Никита/Desktop/Labs/Lab_2/Lab2/build/CMakeFiles/ZERO_CHECK.dir
+C:/Users/Никита/Desktop/Labs/Lab_2/Lab2/build/Matrix/CMakeFiles/Main.dir
+C:/Users/Никита/Desktop/Labs/Lab_2/Lab2/build/MatrixLib/CMakeFiles/MatrixLib.dir
+C:/Users/Никита/Desktop/Labs/Lab_2/Lab2/build/gtest/CMakeFiles/gtest.dir
+C:/Users/Никита/Desktop/Labs/Lab_2/Lab2/build/test/CMakeFiles/Matrix_Test.dir
