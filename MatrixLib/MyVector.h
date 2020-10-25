@@ -31,8 +31,10 @@ public:
   int StartIndex();
   T& operator[] (const int index);
 
-  friend ostream& operator<<(ostream& ostr, const TVector<T>& A);
-  friend istream& operator>>(istream& istr, TVector<T>& A);
+  template <class T1>
+  friend ostream& operator<<(ostream& ostr, const TVector<T1>& A);
+  template <class T1>
+  friend istream& operator>>(istream& istr, TVector<T1>& A);
 };
 
 template<class T>
@@ -171,15 +173,15 @@ inline T& TVector<T>::operator[](const int index)
   return vec[index - start_index];
 }
 
-template <class T>
-inline ostream& operator<<(ostream& ostr, const TVector<T>& A) {
+template <class T1>
+inline ostream& operator<<(ostream& ostr, const TVector<T1>& A) {
   for (int i = 0; i < A.length; i++)
     ostr << A.vec[i] << ' ';
   return ostr;
 }
 
-template <class T>
-inline istream& operator>>(istream& istr, TVector<T>& A) {
+template <class T1>
+inline istream& operator>>(istream& istr, TVector<T1>& A) {
   for (int i = 0; i < A.length; i++)
     istr >> A.vec[i];
   return istr;
