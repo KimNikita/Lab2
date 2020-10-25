@@ -17,13 +17,9 @@ public:
   TMatrix<T>& operator+=(const TMatrix<T>& m);
   TMatrix<T>& operator-=(const TMatrix<T>& m);
 
-  template <class T>
   friend ostream& operator<<(ostream& ostr, const TMatrix<T>& M);
-  template <class T>
   friend istream& operator>>(istream& istr, TMatrix<T>& M);
-  template <class T>
   friend ofstream& operator<<(ofstream& ofstr, const TMatrix<T>& M);
-
 };
 
 template<class T>
