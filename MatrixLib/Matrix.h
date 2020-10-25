@@ -2,50 +2,127 @@
 #include "MyVector.h"
 
 template <class T>
-class TMatrix : public Vector<Vector<T>>
+class TMatrix : public TVector<TVector<T>>
 {
 public:
-  TMatrix(int _size = 0);
-  TMatrix(const TMatrix<T>& A);
+  TMatrix(int size = 0);
+  TMatrix(const TMatrix<T>& m);
   ~TMatrix();
 
-  TMatrix<T>& operator = (const TMatrix<T>& A);
-  TMatrix<T> operator + (const TMatrix<T>& A);
+  TMatrix<T>& operator=(const TMatrix<T>& m);
+  TMatrix<T> operator+(const TMatrix<T>& m);
+  TMatrix<T> operator-(const TMatrix<T>& m);
+  TMatrix<T> operator*(const TMatrix<T>& m);
+  TMatrix<T> operator/(const TMatrix<T>& m);
+  TMatrix<T>& operator+=(const TMatrix<T>& m);
+  TMatrix<T>& operator-=(const TMatrix<T>& m);
+
+  template <class T>
+  friend ostream& operator<<(ostream& ostr, const TMatrix<T>& M);
+  template <class T>
+  friend istream& operator>>(istream& istr, TMatrix<T>& M);
+
 };
 
 template<class T>
-inline TMatrix<T>::TMatrix(int _size) : Vector<Vector<T>>(_size)
+inline TMatrix<T>::TMatrix(int size) : TVector<TVector<T>>(size)
 {
+  if (size < 0)
+    throw exception();
+  for (int i = 0; i < size; i++)
+    vec[i] = TVector<T>(size - i, i);
 }
 
 template<class T>
-inline TMatrix<T>::TMatrix(const TMatrix<T>& A) : Vector<Vector<T>>(A)
+inline TMatrix<T>::TMatrix(const TMatrix<T>& m) : TVector<TVector<T>>(m)
 {
 }
 
 template<class T>
 inline TMatrix<T>::~TMatrix()
 {
-
 }
 
 template<class T>
-inline TMatrix<T>& TMatrix<T>::operator=(const TMatrix<T>& A)
+inline TMatrix<T>& TMatrix<T>::operator=(const TMatrix<T>& m)
 {
-  if (this != &A)
-  {
-    Vector<Vector<T>>::operator =(A);
-  }
+  if (this != &m)
+    TVector<TVector<T>>::operator =(m);
   return *this;
 }
 
 template<class T>
-inline TMatrix<T> TMatrix<T>::operator+(const TMatrix<T>& A)
+inline TMatrix<T> TMatrix<T>::operator+(const TMatrix<T>& m)
 {
   TMatrix<T> temp(*this);
-  for (int i = 0; i < this->length; i++)
-  {
-    temp.x[i] = temp.x[i] + A.x[i];
-  }
+  for (int i = 0; i < length; i++)
+    temp.vec[i] = temp.vec[i] + m.vec[i];
   return temp;
+}
+
+template<class T>
+inline TMatrix<T> TMatrix<T>::operator-(const TMatrix<T>& m)
+{
+  TMatrix<T> temp(*this);
+  for (int i = 0; i < length; i++)
+    temp.vec[i] = temp.vec[i] - m.vec[i];
+  return temp;
+}
+
+template<class T>
+inline TMatrix<T> TMatrix<T>::operator*(const TMatrix<T>& m)
+{
+  TMatrix<T> temp(*this);
+  for (int i = 0; i < length; i++)
+    temp.vec[i] = temp.vec[i] * m.vec[i];
+  return temp;
+}
+
+template<class T>
+inline TMatrix<T> TMatrix<T>::operator/(const TMatrix<T>& m)
+{
+  TMatrix<T> temp(*this);
+  for (int i = 0; i < length; i++)
+    temp.vec[i] = temp.vec[i] / m.vec[i];
+  return temp;
+}
+
+template<class T>
+TMatrix<T>& TMatrix<T>::operator+=(const TMatrix<T>& m)
+{
+  for (int i = 0; i < length; i++)
+    vec[i] += m.vec[i];
+  return *this;
+}
+
+template<class T>
+TMatrix<T>& TMatrix<T>::operator-=(const TMatrix<T>& m)
+{
+  for (int i = 0; i < length; i++)
+    vec[i] -= m.vec[i];
+  return *this;
+}
+
+template<class T>
+inline ostream& operator<<(ostream& ostr, const TMatrix<T>& M)
+{
+  TMatrix<T> temp(M);
+  for (int i = 0; i < temp.Length(); i++)
+  {
+    for (int k = 0; k < i; k++)
+      ostr << ' ' << ' ';
+    for (int j = temp[i].StartIndex(); j < temp.Length(); j++)
+      ostr << temp[i][j] << ' ';
+    ostr << endl;
+  }
+  return ostr;
+}
+
+template<class T>
+inline istream& operator>>(istream& istr, TMatrix<T>& M)
+{
+  for (int i = 0; i < M.Length(); i++)
+    for (int j = M[i].StartIndex(); j < M.Length(); j++)
+      istr >> M[i][j];
+  return istr;
 }

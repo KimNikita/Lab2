@@ -6,215 +6,175 @@
 using namespace std;
 
 template <class T>
-class Vector
+class TVector
 {
 protected:
   int length;
-  T* x;
+  int start_index;
+  T* vec;
 public:
-  Vector<T>* vec;
-  Vector();
-  Vector(T _v);
-  Vector(int rowsCount, T* _v);
-  Vector(int rowsCount, T _v);
-  Vector(const Vector<T>& _v);
-  virtual ~Vector();
+  TVector(int l = 0, int si = 0);
+  TVector(const TVector<T>& v);
+  ~TVector();
 
-  Vector<T> operator +(const Vector<T>& _v);
-  Vector<T> operator -(Vector<T>& _v);
-  Vector<T> operator *(Vector<T>& _v);
-  Vector<T> operator /(Vector<T>& _v);
-  Vector<T>& operator =(const Vector<T>& _v);
-  T& operator[] (const int index);
-
-  Vector<T>& operator ++();
-  Vector<T>& operator --();
-  Vector<T>& operator +=(Vector<T>& _v);
-  Vector<T>& operator -=(Vector<T>& _v);
-
-  template <class T1>
-  friend ostream& operator<< (ostream& ostr, const Vector<T1>& A);
-  template <class T1>
-  friend istream& operator >> (istream& istr, Vector<T1>& A);
+  TVector<T>& operator=(const TVector<T>& a);
+  TVector<T> operator+(const TVector<T>& a);
+  TVector<T> operator-(const TVector<T>& a);
+  TVector<T> operator*(const TVector<T>& a);
+  TVector<T> operator/(const TVector<T>& a);
+  TVector<T>& operator+=(const TVector<T>& a);
+  TVector<T>& operator-=(const TVector<T>& a);
 
   int Length();
+  int StartIndex();
+  T& operator[] (const int index);
+
+  template <class T1>
+  friend ostream& operator<<(ostream& ostr, const TVector<T1>& A);
+  template <class T1>
+  friend istream& operator>>(istream& istr, TVector<T1>& A);
+
 };
-
-template <class T1>
-ostream& operator<< (ostream& ostr, const Vector<T1>& A) {
-  for (int i = 0; i < A.length; i++) {
-    ostr << A.x[i] << endl;
-  }
-  return ostr;
-}
-
-template <class T1>
-istream& operator >> (istream& istr, Vector<T1>& A) {
-  for (int i = 0; i < A.length; i++) {
-    istr >> A.x[i];
-  }
-  return istr;
-}
 
 #define MIN(a,b)(a>b?b:a)
 #define MAX(a,b)(a>b?a:b)
 
+template<class T>
+inline TVector<T>::TVector(int l, int si)
+{
+  if (l < 0 || si < 0)
+    throw exception();
+  length = l;
+  start_index = si;
+  vec = new T[l];
+}
+
 template <class T>
-Vector<T>::Vector()
+TVector<T>::TVector(const TVector<T>& a)
+{
+  length = a.length;
+  start_index = a.start_index;
+  vec = new T[length];
+  for (int i = 0; i < length; i++)
+    vec[i] = a.vec[i];
+}
+
+template <class T>
+TVector<T>::~TVector()
 {
   length = 0;
-  x = 0;
+  start_index = 0;
+  if (vec != 0)
+    delete[] vec;
+  vec = 0;
 }
-template <class T>
-Vector<T>::Vector(T _v)
-{
-  length = 1;
-  x = new T[length];
-  x[0] = _v;
-}
-template <class T>
-Vector<T>::Vector(int rowsCount, T* _v)
-{
-  length = rowsCount;
 
-  ///x = _v;
-
-  x = new T[length];
-  for (int i = 0; i < length; i++)
-    x[i] = _v[i];
-}
 template <class T>
-Vector<T>::Vector(int rowsCount, T _v)
+TVector<T>& TVector<T>::operator=(const TVector<T>& a)
 {
-  length = rowsCount;
-  x = new T[length];
-  for (int i = 0; i < length; i++)
-    x[i] = _v;
-}
-template <class T>
-Vector<T>::Vector(const Vector<T>& _v)
-{
-  length = _v.length;
-  x = new T[length];
-  for (int i = 0; i < length; i = i + 1)
-    x[i] = _v.x[i];
-}
-template <class T>
-Vector<T>::~Vector()
-{
-  length = 0;
-  if (x != 0)
-    delete[] x;
-  x = 0;
-}
-template <class T>
-Vector<T> Vector<T>::operator +(const Vector<T>& _v)
-{
-  Vector<T> res;
-  res.length = MIN(length, _v.length);
-  res.x = new T[res.length];
-  for (int i = 0; i < res.length; i++)
-  {
-    res.x[i] = x[i] + _v.x[i];
-  }
-  return res;
-}
-template <class T>
-Vector<T> Vector<T>::operator -(Vector<T>& _v)
-{
-  Vector<T> res;
-  res.length = MIN(length, _v.length);
-  res.x = new T[res.length];
-  for (int i = 0; i < res.length; i++)
-  {
-    res.x[i] = x[i] - _v.x[i];
-  }
-  return res;
-}
-template <class T>
-Vector<T> Vector<T>::operator *(Vector<T>& _v)
-{
-  Vector<T> res;
-  res.length = MIN(length, _v.length);
-  res.x = new T[res.length];
-  for (int i = 0; i < res.length; i++)
-  {
-    res.x[i] = x[i] * _v.x[i];
-  }
-  return res;
-}
-template <class T>
-Vector<T> Vector<T>::operator /(Vector<T>& _v)
-
-{
-  Vector<T> res;
-  res.length = MIN(length, _v.length);
-  res.x = new T[res.length];
-  for (int i = 0; i < res.length; i++)
-  {
-    res.x[i] = x[i] / _v.x[i];
-  }
-  return res;
-}
-template <class T>
-Vector<T>& Vector<T>::operator =(const Vector<T>& _v)
-{
-  if (this == &_v)
+  if (this == &a)
     return *this;
-
-  length = _v.length;
-  x = new T[length];
+  if (length != a.length)
+  {
+    delete[] vec;
+    vec = new T[a.length];
+  }
+  length = a.length;
+  start_index = a.start_index;
   for (int i = 0; i < length; i++)
-    x[i] = _v.x[i];
+    vec[i] = a.vec[i];
   return *this;
-}
-template <class T>
-T& Vector<T>::operator[] (const int index)
-{
-  if ((index >= 0) && (index < length))
-    return x[index];
-  return x[0];
 }
 
 template <class T>
-Vector<T>& Vector<T>::operator ++()
+TVector<T> TVector<T>::operator+(const TVector<T>& a)
 {
-  for (int i = 0; i < length; i++)
-    x[i]++;
+  int cur_length = MIN(length, a.length);
+  TVector<T> res(length, start_index);
+  for (int i = 0; i < cur_length; i++)
+    res.vec[i] = vec[i] + a.vec[i];
+  return res;
+}
+
+template <class T>
+TVector<T> TVector<T>::operator-(const TVector<T>& a)
+{
+  int cur_length = MIN(length, a.length);
+  TVector<T> res(length, start_index);
+  for (int i = 0; i < cur_length; i++)
+    res.vec[i] = vec[i] - a.vec[i];
+  return res;
+}
+
+template <class T>
+TVector<T> TVector<T>::operator*(const TVector<T>& a)
+{
+  int cur_length = MIN(length, a.length);
+  TVector<T> res(length, start_index);
+  for (int i = 0; i < cur_length; i++)
+    res.vec[i] = vec[i] * a.vec[i];
+  return res;
+}
+
+template <class T>
+TVector<T> TVector<T>::operator/(const TVector<T>& a)
+{
+  int cur_length = MIN(length, a.length);
+  TVector<T> res(length, start_index);
+  for (int i = 0; i < cur_length; i++)
+    res.vec[i] = vec[i] / a.vec[i];
+  return res;
+}
+
+template <class T>
+TVector<T>& TVector<T>::operator+=(const TVector<T>& a)
+{
+  int cur_length = MIN(length, a.length);
+  for (int i = 0; i < cur_length; i++)
+    vec[i] += a.vec[i];
   return *this;
 }
+
 template <class T>
-Vector<T>& Vector<T>::operator --()
+TVector<T>& TVector<T>::operator-=(const TVector<T>& a)
 {
-  for (int i = 0; i < length; i++)
-    x[i]--;
+  int cur_length = MIN(length, a.length);
+  for (int i = 0; i < cur_length; i++)
+    vec[i] -= a.vec[i];
   return *this;
 }
+
 template <class T>
-Vector<T>& Vector<T>::operator +=(Vector<T>& _v)
-{
-  length = MIN(length, _v.length);
-  for (int i = 0; i < length; i++)
-  {
-    x[i] += _v.x[i];
-  }
-  return *this;
-}
-template <class T>
-Vector<T>& Vector<T>::operator -=(Vector<T>& _v)
-{
-  length = MIN(length, _v.length);
-  for (int i = 0; i < length; i++)
-  {
-    x[i] -= _v.x[i];
-  }
-  return *this;
-}
-template <class T>
-int Vector<T>::Length()
+int TVector<T>::Length()
 {
   return length;
 }
 
+template <class T>
+int TVector<T>::StartIndex()
+{
+  return start_index;
+}
 
+template<class T>
+inline T& TVector<T>::operator[](const int index)
+{
+  if (index - start_index < 0 || index - start_index >= length)
+    throw exception();
+  return vec[index - start_index];
+}
+
+template <class T1>
+ostream& operator<<(ostream& ostr, const TVector<T1>& A) {
+  for (int i = 0; i < A.length; i++)
+    ostr << A.vec[i] << ' ';
+  return ostr;
+}
+
+template <class T1>
+istream& operator>>(istream& istr, TVector<T1>& A) {
+  for (int i = 0; i < A.length; i++)
+    istr >> A.vec[i];
+  return istr;
+}
 #endif

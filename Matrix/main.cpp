@@ -4,9 +4,12 @@
 
 int main()
 {
-  Vector<int> a(3, 3);
-  TMatrix<int> A(3);
-
-  std::cout << a << "\nHi\n";
+  int n;
+  cin >> n;
+  TMatrix<int> M(n);
+  for (int i = 0; i < n; i++)
+    for (int j = M[i].StartIndex(); j < n; j++)
+      cin >> M[i][j];
+  cout << M;
   return 0;
 }

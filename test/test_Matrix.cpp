@@ -5,7 +5,7 @@
 
 TEST(TSet, can_create_matrix)
 {
-  ASSERT_ANY_THROW(TMatrix<int>(3));
+  ASSERT_NO_THROW(TMatrix<int> A(3));
 }
 
 //TEST(TSet, can_insert_non_existing_element)
