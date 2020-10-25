@@ -21,6 +21,8 @@ public:
   friend ostream& operator<<(ostream& ostr, const TMatrix<T>& M);
   template <class T>
   friend istream& operator>>(istream& istr, TMatrix<T>& M);
+  template <class T>
+  friend ofstream& operator<<(ofstream& ofstr, const TMatrix<T>& M);
 
 };
 
@@ -55,7 +57,8 @@ template<class T>
 inline TMatrix<T> TMatrix<T>::operator+(const TMatrix<T>& m)
 {
   TMatrix<T> temp(*this);
-  for (int i = 0; i < length; i++)
+  int cur_length = min(temp.length, m.length);
+  for (int i = 0; i < cur_length; i++)
     temp.vec[i] = temp.vec[i] + m.vec[i];
   return temp;
 }
@@ -64,7 +67,8 @@ template<class T>
 inline TMatrix<T> TMatrix<T>::operator-(const TMatrix<T>& m)
 {
   TMatrix<T> temp(*this);
-  for (int i = 0; i < length; i++)
+  int cur_length = min(temp.length, m.length);
+  for (int i = 0; i < cur_length; i++)
     temp.vec[i] = temp.vec[i] - m.vec[i];
   return temp;
 }
@@ -73,7 +77,8 @@ template<class T>
 inline TMatrix<T> TMatrix<T>::operator*(const TMatrix<T>& m)
 {
   TMatrix<T> temp(*this);
-  for (int i = 0; i < length; i++)
+  int cur_length = min(temp.length, m.length);
+  for (int i = 0; i < cur_length; i++)
     temp.vec[i] = temp.vec[i] * m.vec[i];
   return temp;
 }
@@ -82,23 +87,26 @@ template<class T>
 inline TMatrix<T> TMatrix<T>::operator/(const TMatrix<T>& m)
 {
   TMatrix<T> temp(*this);
-  for (int i = 0; i < length; i++)
+  int cur_length = min(temp.length, m.length);
+  for (int i = 0; i < cur_length; i++)
     temp.vec[i] = temp.vec[i] / m.vec[i];
   return temp;
 }
 
 template<class T>
-TMatrix<T>& TMatrix<T>::operator+=(const TMatrix<T>& m)
+inline TMatrix<T>& TMatrix<T>::operator+=(const TMatrix<T>& m)
 {
-  for (int i = 0; i < length; i++)
+  int cur_length = min(length, m.length);
+  for (int i = 0; i < cur_length; i++)
     vec[i] += m.vec[i];
   return *this;
 }
 
 template<class T>
-TMatrix<T>& TMatrix<T>::operator-=(const TMatrix<T>& m)
+inline TMatrix<T>& TMatrix<T>::operator-=(const TMatrix<T>& m)
 {
-  for (int i = 0; i < length; i++)
+  int cur_length = min(length, m.length);
+  for (int i = 0; i < cur_length; i++)
     vec[i] -= m.vec[i];
   return *this;
 }
@@ -125,4 +133,14 @@ inline istream& operator>>(istream& istr, TMatrix<T>& M)
     for (int j = M[i].StartIndex(); j < M.Length(); j++)
       istr >> M[i][j];
   return istr;
+}
+
+template <class T>
+inline ofstream& operator<<(ofstream& ofstr, const TMatrix<T>& M)
+{
+  TMatrix<T> temp(M);
+  for (int i = 0; i < temp.Length(); i++)
+    for (int j = temp[i].StartIndex(); j < temp.Length(); j++)
+      ofstr << temp[i][j];
+  return ofstr;
 }
