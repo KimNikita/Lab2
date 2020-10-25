@@ -31,10 +31,10 @@ public:
   int StartIndex();
   T& operator[] (const int index);
 
-  template <class T1>
-  friend ostream& operator<<(ostream& ostr, const TVector<T1>& A);
-  template <class T1>
-  friend istream& operator>>(istream& istr, TVector<T1>& A);
+  template <class T>
+  friend ostream& operator<<(ostream& ostr, const TVector<T>& A);
+  template <class T>
+  friend istream& operator>>(istream& istr, TVector<T>& A);
 
 };
 
