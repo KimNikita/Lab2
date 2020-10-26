@@ -1,0 +1,2 @@
+C:\Users\Никита\Desktop\Labs\Lab_2\Lab2\build\gtest\Debug\gtest.pdb
+C:\Users\Никита\Desktop\Labs\Lab_2\Lab2\build\gtest\gtest.dir\Debug\gtest.pdb
