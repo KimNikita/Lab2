@@ -1,5 +1,5 @@
 
-//#include <fstream>
+#include <fstream>
 #include <gtest.h>
 #include "Matrix.h"
 
@@ -119,24 +119,24 @@ TEST(TMatrix, can_add_matrix_non_equal_size_high_low)
   EXPECT_EQ(expM, M2);
 }
 
-//TEST(TMatrix, can_write_matrix_to_file)
-//{
-//  const int size = 4;
-//  int k = 0;
-//  TMatrix<int> M(size);
-//  for (int i = 0; i < size; i++)
-//    for (int j = i; j < size; j++)
-//    {
-//      M[i][j] = k;
-//      k++;
-//    }
-//  ofstream fout("output.txt");
-//  fout << M;
-//  fout.close();
-//  string expS = "0123456789";
-//  string S = "";
-//  ifstream fin("output.txt");
-//  fin >> S;
-//  fin.close();
-//  EXPECT_EQ(expS, S);
-//}
+TEST(TMatrix, can_write_matrix_to_file)
+{
+  const int size = 4;
+  int k = 0;
+  TMatrix<int> M(size);
+  for (int i = 0; i < size; i++)
+    for (int j = i; j < size; j++)
+    {
+      M[i][j] = k;
+      k++;
+    }
+  ofstream fout("output.txt");
+  fout << M;
+  fout.close();
+  string expS = "0123456789";
+  string S = "";
+  ifstream fin("output.txt");
+  fin >> S;
+  fin.close();
+  EXPECT_EQ(expS, S);
+}
